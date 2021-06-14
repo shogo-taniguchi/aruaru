@@ -1,0 +1,32 @@
+<h1>クレーム</h1>
+<h3>投稿詳細</h3>
+<div class="claimer">
+  
+  <p><%= @claimer.body_c %></p>
+  <p><%= @claimer.created_at %></p>
+  <% if user_signed_in? %>
+    <% if current_user.already_liked?(@claimer) %>
+        <%= link_to claimer_c_like_path(@claimer), method: :delete do %>
+          <i class="fas fa-heart"></i><%= @claimer.c_likes.count %>
+        <% end %>
+    <% else %>
+        <%= link_to claimer_c_likes_path(@claimer), method: :post do %>
+            
+          <i class="far fa-heart"></i><%= @claimer.c_likes.count %>
+            
+        <% end %>
+    <% end %>
+<% else %>
+  <i class="far fa-heart"></i><%= @claimer.c_likes.count %>
+<% end %>
+
+</div>
+
+<h2>いいねしたユーザー</h2>
+<% @claimer.c_liked_users.each do |user| %>
+  <li><%= user.email %></li>
+<% end %>
+</div>
+
+<%= link_to "編集する", edit_claimer_path(@claimer.id) %>
+<%= link_to "投稿一覧に戻る", claimers_path %>

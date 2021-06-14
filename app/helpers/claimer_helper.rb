@@ -1,0 +1,2 @@
+module ClaimerHelper
+end

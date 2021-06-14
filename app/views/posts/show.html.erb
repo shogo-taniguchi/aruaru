@@ -1,0 +1,28 @@
+<h1>バイトあるある</h1>
+<h3>投稿詳細</h3>
+<div class="post">
+  <p><%= @post.user.email %></p>
+  <p><%= @post.body_p %></p>
+  <p><%= @post.created_at %></p>
+  <% if user_signed_in? %>
+    <% if current_user.already_liked?(@post) %>
+      <%= link_to post_post_like_path(@post), method: :delete do %>
+        <i class="fas fa-heart"></i><%= @post.post_likes.count %>
+      <% end %>
+    <% else %>
+      <%= link_to post_post_likes_path(@post), method: :post do %>
+        <i class="far fa-heart"></i><%= @post.post_likes.count %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <i class="far fa-heart"></i><%= @post.post_likes.count %>
+  <% end %>
+</div>
+
+<h2>いいねしたユーザー</h2>
+<% @post.post_liked_users.each do |user| %>
+  <li><%= user.email %></li>
+<% end %>
+
+<%= link_to "投稿一覧に戻る", posts_path %>
+<%= link_to "編集する", edit_post_path(@post.id) %>

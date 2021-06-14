@@ -1,0 +1,10 @@
+<h1>クレーム</h1>
+<h3>新規投稿</h3>
+<%= form_for @claimer do |f| %>
+  <div class="field">
+    <%= f.label :body_c %>
+    <%= f.text_field :body_c, :size => 140 %>
+  </div>
+  <%= f.submit "投稿する" %>
+<% end %>
+<%= link_to "投稿戻る", claimers_path %>
