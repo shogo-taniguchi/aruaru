@@ -17,6 +17,8 @@ class User < ApplicationRecord
   end
 
   has_many :claimers, dependent: :destroy
+  validates :name, presence: true 
+  validates :profile, length: { maximum: 200 } 
   has_many :c_comments, dependent: :destroy
   has_many :c_likes, dependent: :destroy
   has_many :c_liked_claimers, through: :c_likes, source: :claimer

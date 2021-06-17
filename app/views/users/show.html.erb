@@ -10,6 +10,12 @@
 <% end %>
 
 <h2>ユーザーの投稿一覧</h2>
+クレイマー
+<% @user.claimers.each do |t| %>
+  <%= t.body_c %>
+<% end %>
+</br>
+バイトあるある
 <% @user.posts.each do |t| %>
   <%= t.user.name %>
   <%= t.body_p %>
