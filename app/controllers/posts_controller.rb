@@ -1,7 +1,13 @@
 class PostsController < ApplicationController
     before_action :authenticate_user!
     def index 
-        @posts = Post.all
+        if params[:search] != nil && params[:search] != ''
+            search = params[:search]
+            @posts = Post.joins(:user).where("body_p LIKE ? OR name LIKE ?", "%#{search}%", "%#{search}%")
+        else
+            @posts = Post.all
+        end
+        @rank_posts = Post.all.sort {|a,b| b.post_liked_users.count <=> a.post_liked_users.count}
     end
 
     def new
@@ -20,6 +26,8 @@ class PostsController < ApplicationController
     
     def show
         @post = Post.find(params[:id])
+        @p_comments = @post.p_comments
+        @p_comment = PComment.new
     end
     
     def edit

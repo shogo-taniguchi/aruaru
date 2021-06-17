@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_13_123313) do
+ActiveRecord::Schema.define(version: 2021_06_17_112734) do
+
+  create_table "c_comments", force: :cascade do |t|
+    t.string "content"
+    t.integer "user_id", null: false
+    t.integer "claimer_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["claimer_id"], name: "index_c_comments_on_claimer_id"
+    t.index ["user_id"], name: "index_c_comments_on_user_id"
+  end
 
   create_table "c_likes", force: :cascade do |t|
     t.integer "claimer_id", null: false
@@ -25,6 +35,17 @@ ActiveRecord::Schema.define(version: 2021_06_13_123313) do
     t.text "body_c"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "user_id"
+  end
+
+  create_table "p_comments", force: :cascade do |t|
+    t.string "content"
+    t.integer "user_id", null: false
+    t.integer "post_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["post_id"], name: "index_p_comments_on_post_id"
+    t.index ["user_id"], name: "index_p_comments_on_user_id"
   end
 
   create_table "post_likes", force: :cascade do |t|
@@ -51,12 +72,19 @@ ActiveRecord::Schema.define(version: 2021_06_13_123313) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+    t.text "profile"
+    t.string "image"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "c_comments", "claimers"
+  add_foreign_key "c_comments", "users"
   add_foreign_key "c_likes", "claimers"
   add_foreign_key "c_likes", "users"
+  add_foreign_key "p_comments", "posts"
+  add_foreign_key "p_comments", "users"
   add_foreign_key "post_likes", "posts"
   add_foreign_key "post_likes", "users"
 end

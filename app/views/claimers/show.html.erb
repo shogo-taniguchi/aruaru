@@ -5,7 +5,7 @@
   <p><%= @claimer.body_c %></p>
   <p><%= @claimer.created_at %></p>
   <% if user_signed_in? %>
-    <% if current_user.already_liked?(@claimer) %>
+    <% if current_user.already_c_liked?(@claimer) %>
         <%= link_to claimer_c_like_path(@claimer), method: :delete do %>
           <i class="fas fa-heart"></i><%= @claimer.c_likes.count %>
         <% end %>
@@ -26,6 +26,27 @@
 <% @claimer.c_liked_users.each do |user| %>
   <li><%= user.email %></li>
 <% end %>
+</div>
+
+<div class="c_comment-wrapper">
+  <p>コメント一覧</p>
+  <% @c_comments.each do |c| %>
+    <div>
+      <%= c.user.email unless c.user.blank? %>
+      <br>
+      <%= c.content %>
+    </div>
+      <br>
+  <% end %>
+
+  <% if user_signed_in? %>
+    <%= form_with(model: [@claimer, @c_comment], local: true) do |f| %>
+      <%= f.text_area :content %>
+      <%= button_tag type: "submit" do %>
+        <i class="far fa-c_comments"></i> コメントする
+      <% end %>
+    <% end %>
+  <% end %>
 </div>
 
 <%= link_to "編集する", edit_claimer_path(@claimer.id) %>
